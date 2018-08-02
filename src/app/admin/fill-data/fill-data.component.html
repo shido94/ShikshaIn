@@ -1,0 +1,48 @@
+<div class="card">
+  <div class="card-header">
+    <h3 style="text-align: center">Login Page</h3>
+  </div>
+  <div class="card-body">
+    <form method="post" [formGroup]="orderForm" enctype="multipart/form-data" (ngSubmit)="OnSubmit(orderForm.value)" >
+      <div class="form-group">
+        <label for="image">Select Branch Image</label>
+        <input type="file" formControlName="branchImg" (change)="onFileChange($event)" class="form-control-file" id="image">
+      </div>
+      <div class="form-group">
+        <label for="branch">Select Branch</label>
+        <select formControlName="branch_name" class="form-control" id="branch">
+          <option value="cs">CS</option>
+          <option value="it">IT</option>
+          <option value="me">ME</option>
+          <option value="ece">ECE</option>
+          <option value="civil">CIVIL</option>
+          <option value="ene">ENE</option>
+          <option value="eie">EIE</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="sem">Select Semester</label>
+        <select formControlName="semester" class="form-control" id="sem">
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="course">Enter Subject Name</label>
+        <div formArrayName="subject" *ngFor="let item of items.controls; let i = index;">
+          <br>
+          <div [formGroupName]="i">
+            <input type="text" formControlName="subject_name" class="form-control" id="course" placeholder="subject {{i+1}}"/>
+          </div>
+        </div>
+        <br>
+        <button type="button" class="btn btn-success" (click)="addItem()">Add more fields</button>
+      </div>
+      <button type="submit" [disabled]="" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>

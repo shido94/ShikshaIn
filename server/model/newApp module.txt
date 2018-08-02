@@ -1,0 +1,29 @@
+
+Subject :-
+
+{
+name:'rupesh',
+email: 'rupesh@gmail.com',
+college: 'KIET',
+postedAT: '3:00 PM',
+document: [
+         {
+          Course        : 'B-Tech',
+          University    : 'AKTU',
+          description   : 'IM notes',
+          doc_of_college: 'KIET'
+          year          : '4th',
+          semester      : '5th'
+          branch        : 'IT',
+          subject       : 'IM'
+          Unit covered  : [1,2,3]
+          num_downloads : 10,
+          uploaded at   : 10 pm
+         }
+     ]
+}
+
+
+
+
+

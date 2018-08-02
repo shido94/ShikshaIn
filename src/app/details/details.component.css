@@ -1,0 +1,74 @@
+.information{
+  background-color: #669AAC;
+  margin-top: 75px;
+  justify-content: center;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.container{
+  margin-top: 100px;
+}
+
+
+
+.row{
+  justify-content: center;
+  text-align: center;
+  padding: 20px 0 20px 0;
+  height: 100%;
+}
+
+.information h1,p {
+  color: white;
+}
+
+p,h1,h2,h3{
+  color: black;
+}
+
+.content .card-body{
+  height: 100%;
+}
+
+embed{
+  width: 100%;
+  height: 100%;
+}
+
+.topic{
+  justify-content: center;
+}
+
+/*.topic ::-webkit-scrollbar*/
+/*{*/
+  /*width: 10px;*/
+  /*background-color: #000000;*/
+  /*!*display: none;*!*/
+/*}*/
+
+.topic .card{
+  margin-top: 30px;
+  height: 300px;
+  overflow: scroll;
+}
+
+.card li{
+  color: dimgrey;
+}
+
+.rating{
+  margin-top: 30px;
+  justify-content: center;
+  text-align: center;
+}
+
+
+.shadow-sm{
+  margin: 15px;
+}
+
+.card img{
+  width: 100%;
+  height: 100%;
+}

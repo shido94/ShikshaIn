@@ -2,15 +2,68 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { RouterModule} from '@angular/router';
+import { UserComponent } from './user/user.component';
+import {myRoutes} from './routes';
+import { HomepageComponent } from './homepage/homepage.component';
+import { HeaderComponent } from './header/header.component';
+import { FlexAlignmentDirective } from './directives/flex-alignment.directive';
+import { BranchComponent } from './branch/branch.component';
+import { SearchComponent } from './search/search.component';
+import { DisplayDataComponent } from './display-data/display-data.component';
+import { SemesterComponent } from './semester/semester.component';
+import { SubjectComponent } from './subject/subject.component';
+import { DetailsComponent } from './details/details.component';
+import { StarComponent } from './star/star.component';
+import { FiveStarComponent } from './five-star/five-star.component';
+import { ViewPdfComponent } from './view-pdf/view-pdf.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import {HttpClientModule} from '@angular/common/http';
+import {UserServiceService} from './services/user-service.service';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {AuthGuard} from './gaurds/auth.guard';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatMenuModule, MatSnackBarModule} from '@angular/material';
+import {AdminModule} from './admin/admin.module';
+import {AdminAuthGuard} from './gaurds/admin-auth.guard';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    UserComponent,
+    HomepageComponent,
+    HeaderComponent,
+    FlexAlignmentDirective,
+    BranchComponent,
+    SearchComponent,
+    DisplayDataComponent,
+    SemesterComponent,
+    SubjectComponent,
+    DetailsComponent,
+    StarComponent,
+    FiveStarComponent,
+    ViewPdfComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    RouterModule.forRoot(myRoutes),
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatSnackBarModule,
+    MatMenuModule,
+    AdminModule
   ],
-  providers: [],
+  providers: [
+    UserServiceService,
+    AuthGuard,
+    AdminAuthGuard
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

@@ -1,0 +1,27 @@
+
+.card{
+  width: 40%;
+  margin: 3% 30% 0 30%;
+}
+
+.card-body{
+  justify-content: center;
+}
+
+.form-group label{
+  margin-right: 20px;
+}
+
+label{
+  color: #353535;
+}
+
+/*fieldset {*/
+  /*margin: 3px;*/
+  /*width: 200px;*/
+  /*background: #ddd;*/
+/*}*/
+/*fieldset input {*/
+  /*width: 194px;*/
+  /*padding: 3px;*/
+/*}*/

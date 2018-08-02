@@ -1,0 +1,31 @@
+.container{
+  margin-top: 100px;
+}
+
+/*embed ::-webkit-scrollbar {*/
+  /*display: none;*/
+/*}*/
+
+.row{
+  justify-content: center;
+  text-align: center;
+  padding: 20px 0 20px 0;
+}
+
+.shadow-sm{
+  margin: 15px;
+}
+
+.content{
+  justify-content: center;
+  text-align: center;
+  margin-top: 20px;
+}
+
+p,h1,h2,h3{
+  color: black;
+}
+
+.card li{
+  color: dimgrey;
+}

@@ -1,0 +1,46 @@
+<nav class="navbar navbar-expand-lg fixed-top nav-down navbar-transparent">
+  <div class="container">
+    <div class="navbar-translate">
+      <a class="navbar-brand" routerLink="/" rel="tooltip" data-placement="bottom">
+        <span id="changeSize">Shiksha-In</span>
+      </a>
+    </div>
+    <span class="flex" style="flex-grow: 1"></span>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            Course </a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            Labs
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link" >
+            Examples
+          </a>
+        </li>
+      </ul>
+    </div>
+    <button class="btn btn-danger" *ngIf="username" style="border: 2px solid #007bff" mat-button [matMenuTriggerFor]="menu">
+      {{username}}
+      <i class="material-icons">
+        keyboard_arrow_down
+      </i>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>Profile</button>
+      <button mat-menu-item>Settings</button>
+      <button mat-menu-item (click)="logout()">Logout</button>
+    </mat-menu>
+    <div *ngIf="!username">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <app-login></app-login>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

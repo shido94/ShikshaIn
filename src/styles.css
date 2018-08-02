@@ -1,1 +1,48 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '~material-design-icons/iconfont/material-icons.css';
+
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+  color: #CCCCCC;
+}
+
+a{
+  text-decoration: none;
+}
+
+
+/* Button */
+
+.button {
+  width: 160px;
+  height: 45px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+}
+
+.button:hover {
+  background-color: #dc3545;
+  box-shadow: 0 5px 5px;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/*.blue-snackbar {*/
+  /*background: #ffffff;*/
+  /*color: black;*/
+/*}*/
+

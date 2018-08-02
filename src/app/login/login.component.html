@@ -1,0 +1,30 @@
+<a id="clickme" class="btn btn-round btn-danger" style="color: whitesmoke">
+  Create Profile
+</a>
+
+
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Shiksha-In</h3>
+    </div>
+    <div class="container">
+      <div class="modal-body">
+        <h4>Login Form</h4>
+        <form method="post" [formGroup]="loginForm" (submit)="onLogin()">
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" [formControl]="emailControl" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" [formControl]="passwordControl" id="password" placeholder="Password">
+          </div>
+          <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+        <span>Don't have an account? <a routerLink="/signup">Signup</a></span>
+      </div>
+    </div>
+  </div>
+</div>

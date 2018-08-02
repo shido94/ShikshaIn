@@ -25,3 +25,21 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+
+
+//////////////// TO DO ////////////////////////////////////////
+
+--------------- Make User and teacher to be register and login.
+
+--------------- brypt password ant then apply JWT 
+
+--------------- then make --if login, show home button and in not then then login option show.
+
+1- Create another URL from Admin Where Admin Can register themselves, Update the data And can increase 
+* branch name
+* semester
+* subject name 
+
+and also multiple sub-admin can be possible
+

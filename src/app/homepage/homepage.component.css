@@ -1,0 +1,164 @@
+nav{
+  margin-top: 20px;
+}
+
+nav a{
+  /*color: #323232;*/
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  color: #E5E5E5;
+  margin: 10px;
+  border-radius: 45px;
+}
+
+nav a :hover{
+  color: white;
+}
+
+
+.page-header {
+  /*background-image: url("../../assets/images/blue.png");*/
+  background-color: #257089;
+  /* Full height */
+  height: 100%;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#motto{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  flex-basis: 0;
+  /*width: 50%;*/
+  margin: auto;
+  text-align: center;
+
+}
+
+#help{
+  -webkit-font-smoothing: antialiased;
+  line-height:1em;
+  margin:-20px 0 5px 0;
+
+}
+
+.innerText #help{
+  width: 100%;
+  font-size: 8em;
+}
+
+#spaceSpan{
+  flex-basis: 100%;
+}
+
+#p2{
+  text-align: right;
+  width: 65%;
+  flex-basis: 0;
+  font-style: italic;
+}
+
+#p1{
+  margin: 20px 0 0 0;
+  width: 44%;
+  text-align: right;
+  font-style: italic;
+
+}
+
+
+.wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#footer{
+  margin: 0 20px;
+}
+
+#footer p{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: #E5E5E5;
+  text-align: center;
+  flex-wrap: wrap;
+  overflow-wrap: break-word;
+}
+
+
+#menu div {
+  width: 35px;
+  height: 5px;
+  background-color: white;
+  margin: 6px 0;
+}
+
+@media only screen and (min-width : 990px) {
+  #login {
+    display: none;
+  }
+}
+
+@media only screen and (min-width : 980px) and (max-width : 990px){
+  /*#login {*/
+    /*display: block;*/
+  /*}*/
+
+  #newdiv{
+    display: block;
+  }
+  #changeSize {
+    font-size: 3em;
+  }
+}
+
+
+@media only screen and (min-width : 564px) and (max-width : 979px){
+  #changeSize {
+    font-size: 2em;
+  }
+
+  #p2{
+    text-align: right;
+    width: 80%;
+    flex-basis: 0;
+  }
+
+  #p1{
+    margin: 20px 0 0 0;
+    width: 35%;
+    text-align: right;
+  }
+}
+
+@media only screen and (min-width : 301px) and (max-width : 563px) {
+  #changeSize {
+    font-size: 1em;
+  }
+
+
+  #p1{
+    margin: 20px 0 0 0;
+    width: 30%;
+    text-align: right;
+  }
+
+  #p2{
+    text-align: right;
+    width: 95%;
+    flex-basis: 0;
+  }
+}
+
+/*@media only screen and (min-width : 240px) and (max-width : 300px) {*/
+
+/*}*/
