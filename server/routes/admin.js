@@ -3,13 +3,15 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const cloudinary = require('cloudinary');
+const fs = require('fs');
 const saltRounds = 15;
 const jwt = require('jsonwebtoken');
 mongoose.Promise = Promise;
 const Admin = require('../model/registration');
 const Branch = require('../model/branch');
 const process = require('../../keys/jwt');
-//
+const config = require('../../keys/cloudinary_keys');
+
 // const admin = {
 //   name: 'Rupesh yadav',
 //   email: 'rupeshyadav94.ry@gmail.com',
@@ -106,64 +108,92 @@ router.post('/login', async (req,res)=>{
   }
 });
 
+
+cloudinary.config({
+  cloud_name: config.cloudName,
+  api_key:    config.apiKey,
+  api_secret: config.apiSecret
+});
+
 router.post('/branch-data', async (req,res) =>{
   const body = req.body;
-  console.log(body);
+  console.log(body.branchImg);
 
-  const data= {
-    branchImg: body.branchImg,
-    branch_name: body.branch_name,
-    semester_name: [{
-      semester: body.semester,
-      subject: body.subject
-    }]
-  };
-  // console.log(data);
+  let base64Data = body.branchImg;
 
-  const branch = await Branch.findOne({branch_name: data.branch_name});
-  if(branch) {
-    let value = false;
-    await branch.semester_name.forEach((semester) => {
-      if (semester.semester === data.semester_name[0].semester) {
-        return value = true;
-      }
-    });
-    if(value){
-      return res.status(404).json({
-        success: false,
-        message: 'Data already exist'
-      });
-    }
-    else{
-      Branch.update({_id: branch._id},{
-        $push: {
-          semester_name: data.semester_name
+  base64Data = base64Data.replace(/^data:image\/jpeg;base64,/, '');
+  base64Data = base64Data.replace(/^data:image\/png;base64,/, '');
+
+  console.log(base64Data);
+
+  const branch = await Branch.findOne({branch_name: body.branch_name});
+
+  fs.writeFile("out.jpg", base64Data, 'base64', function(err) {
+    cloudinary.uploader.upload("out.jpg", function(result){
+      if (result.url) {
+        console.log(result);
+        const data= {
+          branchImg: result.url,
+          branch_name: body.branch_name,
+          semester_name: [{
+            semester: body.semester,
+            subject: body.subject
+          }]
+        };
+
+        if(branch) {
+          let value = false;
+          branch.semester_name.forEach((semester) => {
+            if (semester.semester === data.semester_name[0].semester) {
+              return value = true;
+            }
+          });
+          if(value){
+            return res.status(404).json({
+              success: false,
+              message: 'Data already exist'
+            });
+          }
+          else{
+            Branch.update({_id: branch._id},{
+              $push: {
+                semester_name: data.semester_name
+              }
+            },(err) => {
+              if(err) {
+                return res.status(404).json({
+                  success: false,
+                  message: 'Some error'
+                });
+              }
+              else{
+                return res.status(200).json({
+                  success: true
+                });
+              }
+            });
+          }
         }
-      },(err) => {
-        if(err) {
-          return res.status(404).json({
-            success: false,
-            message: 'Some error'
+        else {
+          const new_branch = new Branch(data);
+          new_branch.save((error) =>{
+            if(!error){
+              return res.status(200).json({
+                success: true
+              });
+            }
           });
         }
-        else{
-          return res.status(200).json({
-            success: true
-          });
-        }
-      });
-    }
-  }
-  else {
-    const new_branch = new Branch(data);
-    new_branch.save((error) =>{
-      if(!error){
-        return res.status(200).json({
-          success: true
-        });
+
+
+      } else {
+        return res.status(404).json({
+          success: false,
+          message: 'Error in cloudinary API'
+        })
       }
     });
-  }
+  });
 });
 
 router.get('/data', (req,res) =>{
