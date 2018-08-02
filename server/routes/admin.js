@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const cloudinary = require('cloudinary');
 const saltRounds = 15;
 const jwt = require('jsonwebtoken');
 mongoose.Promise = Promise;
