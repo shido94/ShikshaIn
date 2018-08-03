@@ -36,10 +36,23 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 --------------- then make --if login, show home button and in not then then login option show.
 
-1- Create another URL from Admin Where Admin Can register themselves, Update the data And can increase 
-* branch name
-* semester
-* subject name 
+--------------- Create another URL from Admin Where Admin Can register themselves, Update the data And can increase 
+                * branch name
+                * semester
+                * subject name
+                
+            
+           1- submit all branch images ,semester, subject 
 
-and also multiple sub-admin can be possible
+2- make users profile and then able to submit the data like pdf.
+
+3- make admin able to live the users data and then data is live.
+
+4- IF errors in data then admin can write the message to users and users gets a notification of that data.
+                
+5- Users can give rating to pdf file.
+
+6- Make Users dashboard.                 
+
+7-  also multiple sub-admin can be possible
 

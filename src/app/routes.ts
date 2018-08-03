@@ -9,6 +9,7 @@ import {ViewPdfComponent} from './view-pdf/view-pdf.component';
 import {RegisterComponent} from './register/register.component';
 import {AuthGuard} from './gaurds/auth.guard';
 import {AdminComponent} from './admin/admin.component';
+import {DashboardComponent} from './users/dashboard/dashboard.component';
 
 
 export const myRoutes: Routes = [
@@ -59,5 +60,9 @@ export const myRoutes: Routes = [
   {
     path: 'admin',
     component: AdminComponent
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent
   }
 ];

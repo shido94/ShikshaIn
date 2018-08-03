@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const cloudinary = require('cloudinary');
+const axios = require('axios');
 const fs = require('fs');
 const saltRounds = 15;
 const jwt = require('jsonwebtoken');
@@ -124,8 +125,6 @@ router.post('/branch-data', async (req,res) =>{
   base64Data = base64Data.replace(/^data:image\/jpeg;base64,/, '');
   base64Data = base64Data.replace(/^data:image\/png;base64,/, '');
 
-  console.log(base64Data);
-
   const branch = await Branch.findOne({branch_name: body.branch_name});
 
   fs.writeFile("out.jpg", base64Data, 'base64', function(err) {
@@ -196,10 +195,23 @@ router.post('/branch-data', async (req,res) =>{
   });
 });
 
-router.get('/data', (req,res) =>{
-  Branch.find({branch_name: 'it'}, (err,result) =>{
-    console.log(result[0].semester_name.subject_name)
-  })
+router.get('/api', (req,res) =>{
+  let data = [
+    {
+      userId: 10,
+      id: 98,
+      title: 'laboriosam dolor voluptates',
+      body: 'doloremque ex facilis sit sint culpa{ userId: 10'
+    },
+    {
+      id: 99,
+      title: 'temporibus sit alias delectus eligendi possimus magni',
+      body: 'quo deleniti praesentium dicta non quod'
+    }
+  ];
+
+  res.status(200).json(data);
+
 });
 
 

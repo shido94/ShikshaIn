@@ -3,7 +3,7 @@ const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-
+const axois = require('axios');
 const userApi = require('./server/routes/user');
 const adminApi = require('./server/routes/admin');
 
@@ -18,10 +18,15 @@ app.use(express.static(__dirname + '/dist/newApp'));
 
 app.use('/user', userApi);
 app.use('/admin', adminApi);
+//
+// app.get('*', (req,res)=>{
+//   res.sendFile(path.join(__dirname, ''));
+// });
 
-app.get('*', (req,res)=>{
-  res.sendFile(path.join(__dirname, ''));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/dist/newApp/index.html'));
 });
+
 
 
 

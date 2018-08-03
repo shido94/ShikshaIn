@@ -35,7 +35,7 @@ import {FillDataComponent} from './fill-data/fill-data.component';
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(adminRoutes),
+    RouterModule.forRoot(adminRoutes, { useHash: true }),
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,

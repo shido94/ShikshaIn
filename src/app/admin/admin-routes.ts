@@ -4,6 +4,7 @@ import {RegisterComponent} from './register/register.component';
 import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
 import {FillDataComponent} from './fill-data/fill-data.component';
+import {SemComponent} from './sem/sem.component';
 
 
 export const adminRoutes: Routes = [
@@ -26,5 +27,14 @@ export const adminRoutes: Routes = [
   {
     path: 'admin/data',
     component: FillDataComponent
+  },
+  {
+    path: 'api',
+    redirectTo: 'post',
+    pathMatch: 'full'
+  },
+  {
+    path: 'post',
+    component: SemComponent
   }
 ];

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {map} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 
 
@@ -35,5 +36,15 @@ export class AdminService {
   dataSubmitAdmin(data) {
     console.log(data);
     return this.http.post<RegisterResponse>('/admin/branch-data', data);
+  }
+
+  fetchData(): any {
+    console.log('reaches');
+    return this.http.get('/admin/api').pipe(
+      map((post) => {
+        console.log(post);
+        return post;
+      })
+    );
   }
 }

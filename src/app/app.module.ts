@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { RouterModule} from '@angular/router';
-import { UserComponent } from './user/user.component';
 import {myRoutes} from './routes';
 import { HomepageComponent } from './homepage/homepage.component';
 import { HeaderComponent } from './header/header.component';
@@ -27,11 +26,11 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatMenuModule, MatSnackBarModule} from '@angular/material';
 import {AdminModule} from './admin/admin.module';
 import {AdminAuthGuard} from './gaurds/admin-auth.guard';
+import {DashboardComponent} from './users/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserComponent,
     HomepageComponent,
     HeaderComponent,
     FlexAlignmentDirective,
@@ -45,7 +44,8 @@ import {AdminAuthGuard} from './gaurds/admin-auth.guard';
     FiveStarComponent,
     ViewPdfComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
