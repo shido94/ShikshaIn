@@ -27,6 +27,7 @@ import {MatMenuModule, MatSnackBarModule} from '@angular/material';
 import {AdminModule} from './admin/admin.module';
 import {AdminAuthGuard} from './gaurds/admin-auth.guard';
 import {DashboardComponent} from './users/dashboard/dashboard.component';
+import { UploadComponent } from './users/upload/upload.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {DashboardComponent} from './users/dashboard/dashboard.component';
     ViewPdfComponent,
     LoginComponent,
     RegisterComponent,
-    DashboardComponent
+    DashboardComponent,
+    UploadComponent
   ],
   imports: [
     BrowserModule,

@@ -10,6 +10,7 @@ import {RegisterComponent} from './register/register.component';
 import {AuthGuard} from './gaurds/auth.guard';
 import {AdminComponent} from './admin/admin.component';
 import {DashboardComponent} from './users/dashboard/dashboard.component';
+import {UploadComponent} from './users/upload/upload.component';
 
 
 export const myRoutes: Routes = [
@@ -64,5 +65,9 @@ export const myRoutes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent
+  },
+  {
+    path: 'uploads',
+    component: UploadComponent
   }
 ];
