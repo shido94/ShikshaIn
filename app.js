@@ -11,9 +11,9 @@ const app = express();
 
 const port = 3000;
 
-
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: false}));
+// app.use(express.limit('50MB'));
+app.use(bodyParser.json({limit: '50MB'}));
+app.use(bodyParser.urlencoded({limit: '50MB', extended: false}));
 app.use(express.static(__dirname + '/dist/newApp'));
 
 app.use('/user', userApi);
@@ -26,8 +26,6 @@ app.use('/admin', adminApi);
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/dist/newApp/index.html'));
 });
-
-
 
 
 // Server connection API

@@ -1,0 +1,113 @@
+<app-header></app-header>
+<div class="container">
+
+
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-header" style="color: #ffffff; background-color: #257089">
+          Upload your Document
+        </div>
+        <div class="card-body">
+          <form method="post" [formGroup]="uploadForm" enctype="multipart/form-data" (ngSubmit)="OnUpload(uploadForm.value)" >
+            <label>Document types*</label>
+            <div class="form-group">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" formControlName="types" value="notes">
+                <label class="form-check-label">Notes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" formControlName="types" value="labs">
+                <label class="form-check-label">Labs</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Course*</label>
+              <select class="form-control" formControlName="course">
+                <option value="B-Tech">B-Tech</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>University*</label>
+              <select class="form-control" formControlName="university">
+                <option value="Abdul kalam azaad technical university">Abdul kalam azaad technical university</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Document provided by which college*</label>
+              <select class="form-control" formControlName="doc_of_college">
+                <option value="krishna institute of engineering and technology">Krishna institute of engineering and technology</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Select Branch*</label>
+              <select formControlName="branch" class="form-control">
+                <option value="cs">CS</option>
+                <option value="it">IT</option>
+                <option value="me">ME</option>
+                <option value="ece">ECE</option>
+                <option value="civil">CIVIL</option>
+                <option value="ene">ENE</option>
+                <option value="eie">EIE</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Choose the Semester*</label>
+              <select formControlName="semester" class="form-control">
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Choose document*</label>
+              <br>
+              <label for="file-upload" class="custom-file-upload">
+                <i class="material-icons">
+                  cloud_upload
+                </i>
+                {{filename}}
+              </label>
+              <input type="file" ng2FileSelect [uploader]="uploader" (onFileSelected)="onFileSelected($event)" id="file-upload" class="form-control-file">
+
+              <!--<input type="file" (change)="onFileChange($event)" id="file-upload" class="form-control-file">-->
+            </div>
+            <div class="form-group">
+              <label>Subject Name*</label>
+              <input type="text" class="form-control" #sem (keyup)="valueUpdate(sem.value)" [ngbTypeahead]="search"  formControlName="subject" placeholder="Subject Name">
+            </div>
+            <div class="form-group">
+              <label>Choose the topic covered</label>
+              <div formArrayName="topic_covered" *ngFor="let item of items.controls; let i = index;">
+                <br>
+                <div [formGroupName]="i">
+                  <input type="text" formControlName="topics" class="form-control" placeholder="Topic {{i+1}}"/>
+                </div>
+              </div>
+              <br>
+              <button type="button" class="btn btn-success" (click)="addItem()">Add more fields</button>
+            </div>
+            <button type="submit"  class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body">
+          <p>If you have any problem in submitting the document, you can send your document to
+            <b>
+              rupeshyadav94.ry@gmail.com
+            </b>
+            with an attachment. We will upload your document
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

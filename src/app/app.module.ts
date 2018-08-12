@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import { RouterModule} from '@angular/router';
 import {myRoutes} from './routes';
 import { HomepageComponent } from './homepage/homepage.component';
-import { HeaderComponent } from './header/header.component';
 import { FlexAlignmentDirective } from './directives/flex-alignment.directive';
 import { BranchComponent } from './branch/branch.component';
 import { SearchComponent } from './search/search.component';
@@ -27,13 +26,19 @@ import {MatMenuModule, MatSnackBarModule} from '@angular/material';
 import {AdminModule} from './admin/admin.module';
 import {AdminAuthGuard} from './gaurds/admin-auth.guard';
 import {DashboardComponent} from './users/dashboard/dashboard.component';
-import { UploadComponent } from './users/upload/upload.component';
+import {UploadComponent} from './upload/upload.component';
+import {HeaderComponent} from './header/header.component';
+
+
+
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {FileUploadModule} from 'ng2-file-upload';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     HomepageComponent,
-    HeaderComponent,
     FlexAlignmentDirective,
     BranchComponent,
     SearchComponent,
@@ -47,7 +52,8 @@ import { UploadComponent } from './users/upload/upload.component';
     LoginComponent,
     RegisterComponent,
     DashboardComponent,
-    UploadComponent
+    UploadComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +64,9 @@ import { UploadComponent } from './users/upload/upload.component';
     BrowserAnimationsModule,
     MatSnackBarModule,
     MatMenuModule,
-    AdminModule
+    AdminModule,
+    NgbModule.forRoot(),
+    FileUploadModule
   ],
   providers: [
     UserServiceService,
