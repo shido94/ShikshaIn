@@ -1,11 +1,10 @@
 const express = require('express');
+
+
 const router = express.Router();
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const cloudinary = require('cloudinary');
-const multipart = require('connect-multiparty');
-const multipartMiddleware = multipart();
-const fs = require('fs');
 const saltRounds = 15;
 const jwt = require('jsonwebtoken');
 mongoose.Promise = Promise;
@@ -13,11 +12,23 @@ const User = require('../model/registration');
 const process = require('../../keys/jwt');
 const config = require('../../keys/cloudinary_keys');
 const multer = require('multer');
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage, limits: {maxFileSize: 1024*1024*5}}).single('file');
-const async = require('async');
+const storage = multer.diskStorage({
+  filename: function(req, file, callback) {
+    callback(null, file.originalname)
+  }
+});
+const imagefilter = function (req, file, cb) {
+  if(!file.originalname.match(/\.(jpg|jpeg|png)$/i)) {
+    return cb(new Error('only image files are accepted here'), false);
+  }
+  cb(null, true);
+};
+const upload = multer({ storage: storage, filterHack: imagefilter });
 
-const base64 = require('base-64');
+const Document = require('../model/document');
+const checkAuth = require('../middleware/check-auth');
+
+
 
 
 
@@ -58,7 +69,6 @@ router.post('/login', async (req,res)=>{
   console.log(user);
 
   const hash = await User.findOne({email: user.email});
-  console.log(hash);
 
   if (hash) {
     bcrypt.compare(user.password, hash.password, (err,result) =>{
@@ -113,96 +123,68 @@ cloudinary.config({
   api_secret: config.apiSecret
 });
 
-router.post('/upload' , (req,res) => {
-  let body;
-  let base64Data;
+router.post('/upload', checkAuth,upload.single('photo'), (req,res, next) => {
+  const body = req.file;
 
-
-  // upload(req,res , (err) => {
-  //   if(err){
-  //     console.log(err);
-  //   }
-  //   else{
-  //     const body = req.file;
-  //     console.log(req.file);
-  //
-  //     const base64Data = body.buffer.toString("base64");
-  //     console.log(base64Data);
-  //   }
-  // })
-
-  upload(req,res, (err) => {
-    if(err) {
-      console.log('reaches');
+  cloudinary.v2.uploader.upload(body.path, (err, result) => {
+    if (err) {
+      console.log(err);
+      next(err);
     }
-    else{
-      async.series([
-        function (callback) {
-          body = req.file;
-          console.log(body);
-          callback()
-        },
-        function (callback) {
-          setTimeout(() => {
-            base64Data = body.buffer.toString("base64");
-            console.log(base64Data);
-            callback();
-          });
-        }
-      ],()=>{
-        setTimeout( () => {
-          fs.writeFile('sample_spreadsheet.xls', base64Data, 'base64' , (err) => {
-            if(!err) {
-              cloudinary.uploader.upload('sample_spreadsheet.xls', (errs, result) => {
-                console.log(errs);
-                console.log(result);
-                console.log('done');
-              })
-            }
-          });
-        });
+    else {
+      res.status(200).json({
+        url: result.url,
+        success: true
       });
-
-      // const base64Data = body.buffer.toString("base64");
-      //
-      // console.log(base64Data);
     }
   });
+});
 
-  // const file = req.file;
-  // console.log(file);
+router.post('/submit', checkAuth, (req,res) => {
+  const file = req.body;
+  let topics = [];
 
-  // fs.readFile(file, (file) => {
-  //   console.log(file);
-  // });
+  if(file.topic_covered.length > 0) {
+    file.topic_covered.forEach(topic => {
+      topics.push(topic.topics);
+    });
+  }
 
-  // const base64Data = body.buffer.toString("base64");
-  //
-  // console.log(base64Data);
+  const document= {
+    types: file.types,
+    branch: file.branch,
+    course: file.course,
+    university: file.university,
+    doc_of_college: file.doc_of_college,
+    document: file.document,
+    semester: file.semester,
+    subject: file.subject,
+    unit_covered: topics
+  };
 
 
-  // const base64Data = body.buffer.toString("base64");
-  //
-  // console.log(base64Data);
+  const docs = new Document(document);
 
-  // let base64Data = body.document;
-  // base64Data = base64Data.replace(/^data:image\/jpeg;base64,/, '');
-  // base64Data = base64Data.replace(/^data:image\/png;base64,/, '');
-  // base64Data = base64Data.replace(/^data:application\/pdf;base64,/,'');
-  // base64Data = base64Data.replace(/^data:application\/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,/,'');
-
-  // console.log(base64Data);
-
-  // fs.writeFile('sample_spreadsheet.xls', base64Data, 'base64' , (err) => {
-  //   if(!err) {
-  //     cloudinary.uploader.upload(file, (errs, result) => {
-  //       console.log(errs);
-  //       console.log(result);
-  //       console.log('done');
-  //     })
-  //   }
-  // });
-
+  docs.save( (err,ouptput ) => {
+    if(err) {
+      next(err)
+    }
+    else{
+      console.log(ouptput);
+      User.update({_id: req.userData.userId}, {
+        $push: {
+          uploads: ouptput._id
+        }
+      }, (err) => {
+        if(!err) {
+          res.status(200).json({
+            success: true,
+            message: 'Your file is successfully uploaded'
+          });
+        }
+      });
+    }
+  });
 });
 
 module.exports = router;

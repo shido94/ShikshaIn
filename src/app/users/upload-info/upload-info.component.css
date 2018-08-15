@@ -1,0 +1,13 @@
+.container{
+  margin-top: 200px;
+  color: black;
+}
+
+.row{
+  text-align: center;
+  justify-content: center;
+}
+
+.big {
+  font-size: 2em;
+}

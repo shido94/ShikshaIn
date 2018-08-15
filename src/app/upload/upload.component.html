@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">
           <form method="post" [formGroup]="uploadForm" enctype="multipart/form-data" (ngSubmit)="OnUpload(uploadForm.value)" >
-            <label>Document types*</label>
+            <label>Document types<span style="color: red;">*</span></label>
             <div class="form-group">
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" formControlName="types" value="notes">
@@ -22,26 +22,26 @@
               </div>
             </div>
             <div class="form-group">
-              <label>Course*</label>
+              <label>Course <span style="color: red;">*</span></label>
               <select class="form-control" formControlName="course">
                 <option value="B-Tech">B-Tech</option>
               </select>
             </div>
             <div class="form-group">
-              <label>University*</label>
+              <label>University<span style="color: red;">*</span></label>
               <select class="form-control" formControlName="university">
                 <option value="Abdul kalam azaad technical university">Abdul kalam azaad technical university</option>
               </select>
             </div>
             <div class="form-group">
-              <label>Document provided by which college*</label>
+              <label>Document provided by which college<span style="color: red;">*</span></label>
               <select class="form-control" formControlName="doc_of_college">
                 <option value="krishna institute of engineering and technology">Krishna institute of engineering and technology</option>
                 <option value="other">Other</option>
               </select>
             </div>
             <div class="form-group">
-              <label>Select Branch*</label>
+              <label>Select Branch<span style="color: red;">*</span></label>
               <select formControlName="branch" class="form-control">
                 <option value="cs">CS</option>
                 <option value="it">IT</option>
@@ -53,7 +53,7 @@
               </select>
             </div>
             <div class="form-group">
-              <label>Choose the Semester*</label>
+              <label>Choose the Semester<span style="color: red;">*</span></label>
               <select formControlName="semester" class="form-control">
                 <option value="3">3</option>
                 <option value="4">4</option>
@@ -63,21 +63,22 @@
                 <option value="8">8</option>
               </select>
             </div>
-            <div class="form-group">
-              <label>Choose document*</label>
-              <br>
-              <label for="file-upload" class="custom-file-upload">
-                <i class="material-icons">
-                  cloud_upload
-                </i>
-                {{filename}}
-              </label>
-              <input type="file" ng2FileSelect [uploader]="uploader" (onFileSelected)="onFileSelected($event)" id="file-upload" class="form-control-file">
 
-              <!--<input type="file" (change)="onFileChange($event)" id="file-upload" class="form-control-file">-->
-            </div>
             <div class="form-group">
-              <label>Subject Name*</label>
+              <label>Choose document<span style="color: red;">*</span></label>
+              <br>
+              <input  type="file" name="photo" #file class="form-control-file" (change)="uploadFile($event)" ng2FileSelect [uploader]="uploader" />
+              <br>
+              <button  type="button" class="btn btn-primary"
+                      (click)="uploadImage()"
+                      [disabled]="!uploader.getNotUploadedItems().length || !uploadButton" >
+                Upload an Image
+              </button>
+            </div>
+
+
+            <div class="form-group">
+              <label>Subject Name<span style="color: red;">*</span></label>
               <input type="text" class="form-control" #sem (keyup)="valueUpdate(sem.value)" [ngbTypeahead]="search"  formControlName="subject" placeholder="Subject Name">
             </div>
             <div class="form-group">
@@ -91,7 +92,7 @@
               <br>
               <button type="button" class="btn btn-success" (click)="addItem()">Add more fields</button>
             </div>
-            <button type="submit"  class="btn btn-primary">Submit</button>
+            <button type="submit" [disabled]="uploadForm.invalid || condition"  class="btn btn-primary">Submit</button>
           </form>
         </div>
       </div>

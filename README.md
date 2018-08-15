@@ -42,9 +42,9 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
                 * subject name
                 
             
-           1- submit all branch images ,semester, subject 
+................- submit all branch images ,semester, subject 
 
-2- make users profile and then able to submit the data like pdf.
+.................make users profile and then able to submit the data like pdf.
 
 3- make admin able to live the users data and then data is live.
 

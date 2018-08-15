@@ -33,6 +33,8 @@ import {HeaderComponent} from './header/header.component';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FileUploadModule} from 'ng2-file-upload';
+import { ProfileComponent } from './users/profile/profile.component';
+import {UploadInfoComponent} from './users/upload-info/upload-info.component';
 
 
 @NgModule({
@@ -53,7 +55,9 @@ import {FileUploadModule} from 'ng2-file-upload';
     RegisterComponent,
     DashboardComponent,
     UploadComponent,
-    HeaderComponent
+    HeaderComponent,
+    ProfileComponent,
+    UploadInfoComponent
   ],
   imports: [
     BrowserModule,

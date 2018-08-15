@@ -5,8 +5,10 @@ Subject :-
 name:'rupesh',
 email: 'rupesh@gmail.com',
 college: 'KIET',
-usersDetails: [],
-postedAT: '3:00 PM',
+Profession: 'student',
+usersDetails: [{  }],
+registerAT: '3:00 PM',
+lastLogin: '2 days ago',
 document: [
          {
           Course*        : 'B-Tech',

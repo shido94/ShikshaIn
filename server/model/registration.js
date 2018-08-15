@@ -9,7 +9,7 @@ const Registration = new Schema({
   Profession: { type: String, default: 'student' },
   college: String,
   postedAt: { type : Date, default: Date.now },
-  typeOfDocument: [{type: Schema.Types.ObjectId, ref: 'Project' }]
+  uploads: [{type: Schema.Types.ObjectId, ref: 'document' }]
 });
 
 module.exports = mongoose.model('register', Registration);

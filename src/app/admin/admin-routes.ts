@@ -5,6 +5,8 @@ import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
 import {FillDataComponent} from './fill-data/fill-data.component';
 import {SemComponent} from './sem/sem.component';
+import {PendingComponent} from './pending/pending.component';
+import {FilesComponent} from './files/files.component';
 
 
 export const adminRoutes: Routes = [
@@ -36,5 +38,13 @@ export const adminRoutes: Routes = [
   {
     path: 'post',
     component: SemComponent
+  },
+  {
+    path: 'admin/data/pending',
+    component: PendingComponent
+  },
+  {
+    path: 'admin/data/pending/file',
+    component: FilesComponent
   }
 ];

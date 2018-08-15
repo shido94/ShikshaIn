@@ -11,6 +11,8 @@ import {AuthGuard} from './gaurds/auth.guard';
 import {AdminComponent} from './admin/admin.component';
 import {DashboardComponent} from './users/dashboard/dashboard.component';
 import {UploadComponent} from './upload/upload.component';
+import {ProfileComponent} from './users/profile/profile.component';
+import {UploadInfoComponent} from './users/upload-info/upload-info.component';
 
 
 export const myRoutes: Routes = [
@@ -69,5 +71,13 @@ export const myRoutes: Routes = [
   {
     path: 'uploads',
     component: UploadComponent
+  },
+  {
+    path: 'dashboard/profile',
+    component: ProfileComponent
+  },
+  {
+    path: 'uploads/information',
+    component: UploadInfoComponent
   }
 ];

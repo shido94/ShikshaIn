@@ -19,6 +19,8 @@ import { VerifyComponent } from './verify/verify.component';
 import { HomeComponent } from './home/home.component';
 import {AdminAuthGuard} from '../gaurds/admin-auth.guard';
 import {FillDataComponent} from './fill-data/fill-data.component';
+import { PendingComponent } from './pending/pending.component';
+import { FilesComponent } from './files/files.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import {FillDataComponent} from './fill-data/fill-data.component';
     LoginComponent,
     VerifyComponent,
     HomeComponent,
-    FillDataComponent
+    FillDataComponent,
+    PendingComponent,
+    FilesComponent
   ],
   imports: [
     BrowserModule,

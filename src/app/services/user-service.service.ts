@@ -1,8 +1,15 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {RequestOptions} from '@angular/http';
 
 interface RegisterResponse {
   success: boolean;
+  message: '';
+}
+
+interface UploadPhoto {
+  success: true;
+  url: '';
 }
 
 interface LoginResponse {
@@ -36,11 +43,22 @@ export class UserServiceService {
     return this.http.post<GetValues>('/user/branchSearch', {branchData});
   }
 
-  uploadData (uploadForm) {
-    // const headers = new HttpHeaders().set('Content-Type', 'undefined');
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  uploadData (uploadImage) {
+    const token = localStorage.getItem('USER_TOKEN');
+    return this.http.post<UploadPhoto>('/user/upload', uploadImage, {
+      headers: {Authorization: 'Bearer ' + token}
+    });
+  }
 
-    return this.http.post<RegisterResponse>('/user/upload', {uploadForm}, { headers });
+  formSubmit (formSubmit) {
+    const token = localStorage.getItem('USER_TOKEN');
+    return this.http.post<RegisterResponse>('/user/submit', formSubmit, {
+      headers: {Authorization: 'Bearer ' + token}
+    });
+  }
+
+  getBranch () {
+    return this.http.get<GetValues>('/user/');
   }
 
 }

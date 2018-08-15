@@ -3,23 +3,11 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, filter, map} from 'rxjs/operators';
 import {UserServiceService} from '../services/user-service.service';
 import {Observable} from 'rxjs';
-import {FileUploader} from 'ng2-file-upload';
+import {FileItem, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
+import {Router} from '@angular/router';
 
-function readBase64(file): Promise<any> {
-  const reader  = new FileReader();
-  const future = new Promise((resolve, reject) => {
-    reader.addEventListener('load', function () {
-      resolve(reader.result);
-    }, false);
+const URL = 'http://localhost:3000/user/upload';
 
-    reader.addEventListener('error', function (event) {
-      reject(event);
-    }, false);
-
-    reader.readAsDataURL(file);
-  });
-  return future;
-}
 
 @Component({
   selector: 'app-upload',
@@ -27,34 +15,38 @@ function readBase64(file): Promise<any> {
   styleUrls: ['./upload.component.css']
 })
 export class UploadComponent implements OnInit {
-  filename = 'Select File';
 
   result: any = [];
 
+  image = '';
+
+  condition = true;
+  uploadButton = true;
+
   public search: any;
 
-  public uploader: FileUploader = new FileUploader({});
+  public uploader: FileUploader = new FileUploader({itemAlias: 'photo'});
 
   uploadForm: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserServiceService
-  ) {
+    private userService: UserServiceService,
+    private router: Router) {
   }
 
   ngOnInit() {
 
     this.uploadForm = this.formBuilder.group({
-      types          : ['notes', Validators.required],
-      branch         : ['cs', Validators.required],
-      course         : ['B-Tech', Validators.required],
-      university     : ['Abdul kalam azaad technical university', Validators.required],
-      doc_of_college : ['krishna institute of engineering and technology', Validators.required],
+      types: ['notes', Validators.required],
+      branch: ['cs', Validators.required],
+      course: ['B-Tech', Validators.required],
+      university: ['Abdul kalam azaad technical university', Validators.required],
+      doc_of_college: ['krishna institute of engineering and technology', Validators.required],
       document       : [null, Validators.required],
-      semester       : ['3', Validators.required],
-      subject        : [null, Validators.required],
-      topic_covered  : this.formBuilder.array([this.createItem()])
+      semester: ['3', Validators.required],
+      subject: [null, Validators.required],
+      topic_covered: this.formBuilder.array([this.createItem()])
     });
 
     this.search = (text$: Observable<string>) => text$.pipe(
@@ -66,71 +58,35 @@ export class UploadComponent implements OnInit {
           return v;
         }).slice(0, 10))
     );
+
   }
 
+  ///// Upload Image///////////
 
-  //////////// File Converted into base64/////////////////
+  uploadFile($event) {
+    this.condition = true;
+    this.uploadButton = true;
+    this.image = $event.target.files[0];
+  }
 
-  onFileSelected(event: EventEmitter<File[]>) {
-    const file: File = event[0];
-
+  uploadImage() {
     const formData = new FormData();
-    formData.append('file', file);
-    const r = new XMLHttpRequest();
-    r.open('POST', '/user/upload');
-    r.send(formData);
-
-    // this.uploadForm.patchValue({
-    //   document: file
-    // });
-
-    // readBase64(file)
-    //   .then(data => {
-    //     // const formData = new FormData();
-    //     // formData.append('image', data);
-    //     // const r = new XMLHttpRequest();
-    //     // r.open('POST', '/user/upload');
-    //     // r.send(formData);
-    //     this.uploadForm.patchValue({
-    //       document: data
-    //     });
-    //   });
-
+    formData.append('photo', this.image);
+    const obj$ = this.userService.uploadData(formData);
+    obj$.subscribe(data => {
+      console.log(data);
+      if (data.success) {
+        this.condition = false;
+        this.uploadButton = false;
+        this.uploadForm.patchValue({
+          document: data.url
+        });
+      }
+    });
   }
 
-  // onFileChange(event) {
-  //   // const reader = new FileReader();
-  //   if (event.target.files && event.target.files.length) {
-  //     const file = event.target.files[0];
-  //     // reader.readAsDataURL(file);
-  //     // this.filename = file.name;
-  //     // reader.onload = () => {
-  //     //   console.log(reader.result);
-  //       this.uploadForm.patchValue({
-  //         document: file
-  //         // document: file
-  //       });
-  //     // };
-  //   }
-  // }
 
-  // onFileChange(event) {
-  //   const reader = new FileReader();
-  //   if (event.target.files && event.target.files.length) {
-  //     const [file] = event.target.files;
-  //     reader.readAsDataURL(file);
-  //     this.filename = file.name;
-  //     reader.onload = () => {
-  //       console.log(reader.result);
-  //       this.uploadForm.patchValue({
-  //         document: reader.result
-  //         // document: file
-  //       });
-  //     };
-  //   }
-  // }
-
-  /////////////// Add multiple fields
+  /////////////// Add multiple fields//////////////
 
   createItem(): FormGroup {
     return this.formBuilder.group({
@@ -146,30 +102,29 @@ export class UploadComponent implements OnInit {
     this.items.push(this.createItem());
   }
 
-
   ////  Searched value //////////////
 
   valueUpdate($event) {
     if ($event.length > 3) {
       const obs$ = this.userService.branchData($event);
       obs$.subscribe(value => {
-        this.result = value.value;
+        // console.log(value);
       });
     }
   }
 
 //////// Submit Form/////////////
 
-  OnUpload (uploadForm: any ) {
-    // const fd = new FormData();
-    // fd.append('branch', uploadForm.branch);
-    // fd.append('semester', uploadForm.semester);
-    // fd.append('document', uploadForm.document);
-
-    console.log(uploadForm);
-    const obs$ = this.userService.uploadData(uploadForm);
+  OnUpload (submitForm: any ) {
+    console.log(submitForm);
+    const obs$ = this.userService.formSubmit(submitForm);
     obs$.subscribe(data => {
-      console.log(data);
+      if (data.success) {
+        this.condition = true;
+        this.uploadButton = false;
+        console.log(data);
+        this.router.navigate(['uploads', 'information']);
+      }
     });
   }
 }

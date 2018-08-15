@@ -1,0 +1,79 @@
+<script src="../../app.component.spec.ts"></script>
+<app-header></app-header>
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-sm-4" id="round">
+      <div class="card">
+        <div class="card-body">
+          <img class="card-img-top" src="../../assets/images/click.jpg" alt="Card image cap">
+          <p style="font-size: 2em; color: #257089; margin-top: 10px"><a>Rupesh Yadav</a></p>
+          <p style="color: black">Profession: <span style="font-weight: 900">student</span></p>
+        </div>
+      </div>
+      <div class="card" style="margin-top: 10px">
+        <div class="card-body">
+          <a href="#">Edit Profile</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-header">
+          General Information
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="form-group">
+              <table class="table">
+                <tbody>
+                <tr>
+                  <th scope="row">Name:</th>
+                  <td>
+                    <input [disabled]="true" type="text" value="Rupesh yadav" placeholder="Enter email">
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Email:</th>
+                  <td>
+                    <input  value="rupesh.1513075@kiet.edu" type="text" placeholder="email">
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">College:</th>
+                  <td>
+                    <input [disabled]="true" type="text" value="KIET" placeholder="college name">
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">Profession:</th>
+                  <td>
+                    <input [disabled]="true" type="text" value="student" placeholder="profession">
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+      <div class="card" style="margin-top: 20px">
+        <div class="card-header">
+          Additional Information
+        </div>
+        <div class="card-body">
+          <p>
+            blah......
+          </p>
+          <p>
+            blah......
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
