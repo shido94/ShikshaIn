@@ -21,6 +21,8 @@ import {AdminAuthGuard} from '../gaurds/admin-auth.guard';
 import {FillDataComponent} from './fill-data/fill-data.component';
 import { PendingComponent } from './pending/pending.component';
 import { FilesComponent } from './files/files.component';
+import { UserMessageComponent } from './user-message/user-message.component';
+import {EventBus} from './services/event-bus';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import { FilesComponent } from './files/files.component';
     HomeComponent,
     FillDataComponent,
     PendingComponent,
-    FilesComponent
+    FilesComponent,
+    UserMessageComponent
   ],
   imports: [
     BrowserModule,
@@ -51,6 +54,7 @@ import { FilesComponent } from './files/files.component';
   ],
   providers: [
     AdminService,
+    EventBus,
     AuthGuard,
     AdminAuthGuard
   ],

@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
-const Document = new Schema({
+const WaitForApproval = new Schema({
+  uploadedBy    : String,
   types         : String,
   course        : String,
   university    : String,
@@ -11,8 +12,7 @@ const Document = new Schema({
   document      : String,
   subject       : String,
   unit_covered  : [{type: String}],
-  num_downloads : Number,
   uploadedAt    : { type : Date, default: Date.now },
 });
 
-module.exports = mongoose.model('document',Document);
+module.exports = mongoose.model('approval',WaitForApproval);

@@ -8,10 +8,13 @@ const fs = require('fs');
 const saltRounds = 15;
 const jwt = require('jsonwebtoken');
 mongoose.Promise = Promise;
-const Admin = require('../model/registration');
-const Branch = require('../model/branch');
 const process = require('../../keys/jwt');
 const config = require('../../keys/cloudinary_keys');
+const Admin = require('../model/registration');
+const Branch = require('../model/branch');
+const WaitForApproval = require('../model/wait-for-approval');
+const Document = require('../model/document');
+const User = require('../model/registration');
 
 // const admin = {
 //   name: 'Rupesh yadav',
@@ -214,9 +217,58 @@ router.get('/api', (req,res) =>{
 
 });
 
+router.post('/approval', async (req,res) => {
+  const dataId = req.body.approveData;
+  const data = await WaitForApproval.findOne({_id: dataId});
+  if(data.length === 1) {
+    const document= {
+      types: data.types,
+      branch: data.branch,
+      course: data.course,
+      university: data.university,
+      doc_of_college: data.doc_of_college,
+      document: data.document,
+      semester: data.semester,
+      subject: data.subject,
+      unit_covered: data,
+      uploadedAt: data.uploadedAt
+    };
 
+    const userData = new Document(document);
+    userData.save( (err,output) => {
+      if(!err) {
+        User.update({_id: data.uploadedBy}, {
+          $push: {
+            uploads: output._id
+          }
+        }, (error) => {
+          if(!error) {
+            res.status(200).json({
+              success: true,
+              message: 'Successfully Approved'
+            });
+          }
+          else{
+            res.status(404).json({
+              success: false,
+              message: 'Approval Failed'
+            });
+          }
+        });
+      }
+    });
+  }
+  else{
+    res.status(404).json({
+      success: false,
+      message: 'This data is already handeled'
+    });
+  }
+});
 
-
+router.post('/disapproval', (req,res) => {
+  console.log(req.body);
+});
 
 
 

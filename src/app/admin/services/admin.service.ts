@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import {map} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
+import {Subject} from 'rxjs';
 
 
 interface RegisterResponse {
   success: boolean;
+  message: '';
 }
 
 interface LoginResponse {
@@ -18,6 +20,8 @@ interface LoginResponse {
   providedIn: 'root'
 })
 export class AdminService {
+
+  public subject = new Subject<any>();
 
   constructor(private http: HttpClient) { }
 
@@ -46,5 +50,14 @@ export class AdminService {
         return post;
       })
     );
+  }
+
+  approveData (approveData) {
+    return this.http.post<RegisterResponse>('/admin/approval', {approveData});
+  }
+
+  disapproveData (disapproveData) {
+    console.log(disapproveData);
+    return this.http.post<RegisterResponse>('/admin/disapproval', {disapproveData});
   }
 }

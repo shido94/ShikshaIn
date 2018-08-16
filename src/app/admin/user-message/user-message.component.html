@@ -1,0 +1,21 @@
+<app-header></app-header>
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      Send Error to User
+    </div>
+    <div class="card-body">
+      <form method="post" [formGroup]="messageForm" (submit)="OnUpload(messageForm.value)">
+        <div class="form-group">
+          <label for="subject">Query Subject</label>
+          <input type="text" formControlName="subject" class="form-control" id="subject" placeholder="enter query subject">
+        </div>
+        <div class="form-group">
+          <label for="Textarea1">Enter the Problem in submission</label>
+          <textarea class="form-control" formControlName="message" id="Textarea1" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Send</button>
+      </form>
+    </div>
+  </div>
+</div>

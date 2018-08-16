@@ -1,0 +1,9 @@
+.container{
+  margin-top: 100px;
+  color: black;
+}
+
+.card-header{
+  background-color: #257089;
+  color: white;
+}

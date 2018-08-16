@@ -26,6 +26,7 @@ const imagefilter = function (req, file, cb) {
 const upload = multer({ storage: storage, filterHack: imagefilter });
 
 const Document = require('../model/document');
+const WaitForApproval = require('../model/wait-for-approval');
 const checkAuth = require('../middleware/check-auth');
 
 
@@ -151,6 +152,7 @@ router.post('/submit', checkAuth, (req,res) => {
   }
 
   const document= {
+    uploadedBy: req.userData.userId,
     types: file.types,
     branch: file.branch,
     course: file.course,
@@ -163,26 +165,17 @@ router.post('/submit', checkAuth, (req,res) => {
   };
 
 
-  const docs = new Document(document);
+  const docs = new WaitForApproval(document);
 
-  docs.save( (err,ouptput ) => {
+  docs.save( (err,ouptput) => {
     if(err) {
       next(err)
     }
     else{
-      console.log(ouptput);
-      User.update({_id: req.userData.userId}, {
-        $push: {
-          uploads: ouptput._id
-        }
-      }, (err) => {
-        if(!err) {
-          res.status(200).json({
-            success: true,
-            message: 'Your file is successfully uploaded'
-          });
-        }
-      });
+      res.status(200).json({
+        success: true,
+        message: 'You file has been successfully '
+      })
     }
   });
 });

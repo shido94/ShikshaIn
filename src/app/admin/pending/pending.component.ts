@@ -12,4 +12,6 @@ export class PendingComponent implements OnInit {
   ngOnInit() {
   }
 
+
+
 }

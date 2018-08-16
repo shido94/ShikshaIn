@@ -7,6 +7,7 @@ import {FillDataComponent} from './fill-data/fill-data.component';
 import {SemComponent} from './sem/sem.component';
 import {PendingComponent} from './pending/pending.component';
 import {FilesComponent} from './files/files.component';
+import {UserMessageComponent} from './user-message/user-message.component';
 
 
 export const adminRoutes: Routes = [
@@ -46,5 +47,9 @@ export const adminRoutes: Routes = [
   {
     path: 'admin/data/pending/file',
     component: FilesComponent
+  },
+  {
+    path: 'admin/data/pending/file/message',
+    component: UserMessageComponent
   }
 ];
