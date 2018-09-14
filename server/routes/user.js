@@ -26,11 +26,10 @@ const imagefilter = function (req, file, cb) {
 const upload = multer({ storage: storage, filterHack: imagefilter });
 
 const Document = require('../model/document');
+const Branch = require('../model/branch');
+
 const WaitForApproval = require('../model/wait-for-approval');
 const checkAuth = require('../middleware/check-auth');
-
-
-
 
 
 
@@ -104,18 +103,36 @@ router.post('/login', async (req,res)=>{
   }
 });
 
-router.post('/branchSearch', (req,res) =>{
-  const value = req.body.branchData;
+router.post('/subjectSearch', (req,res) =>{
 
-  const store = [];
+  // const value = req.body;
+  // const store = [];
+  // const regex = new RegExp(value, 'i');
+  // User.find({name: regex}, (err,result) => {
+  //   result.forEach(data => {
+  //     store.push(data.name);
+  //   });
+  //   res.status(200).json({success: true, value: store});
+  // });
 
-  const regex = new RegExp(value, 'i');
-  User.find({name: regex}, (err,result) => {
-    result.forEach(data => {
-      store.push(data.name);
-    });
-    res.status(200).json({success: true, value: store});
-  });
+  const array = [];
+  const subject_arr = [];
+  Branch.findOne({branch_name: req.body.branch}, (err, result) => {
+    if (result) {
+      result.semester_name.forEach(semester => {
+        if(semester.semester === req.body.semester) {
+          array.push(semester);
+          return;
+        }
+      });
+
+      array[0].subject.forEach(sub => {
+        subject_arr.push(sub.subject_name);
+      });
+      res.status(200).json(subject_arr);
+    }
+  })
+
 });
 
 cloudinary.config({
@@ -126,6 +143,8 @@ cloudinary.config({
 
 router.post('/upload', checkAuth,upload.single('photo'), (req,res, next) => {
   const body = req.file;
+
+  console.log(body);
 
   cloudinary.v2.uploader.upload(body.path, (err, result) => {
     if (err) {
@@ -179,5 +198,6 @@ router.post('/submit', checkAuth, (req,res) => {
     }
   });
 });
+
 
 module.exports = router;

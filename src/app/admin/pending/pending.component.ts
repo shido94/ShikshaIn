@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {AdminService} from '../services/admin.service';
 
 @Component({
   selector: 'app-pending',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PendingComponent implements OnInit {
 
-  constructor() { }
+  pendings = [];
+
+  constructor(private adminService: AdminService) { }
 
   ngOnInit() {
+    this.adminService.getPendingData().subscribe(data => {
+      this.pendings = data;
+    });
   }
 
 

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {RequestOptions} from '@angular/http';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 interface RegisterResponse {
   success: boolean;
@@ -39,8 +41,8 @@ export class UserServiceService {
     return this.http.post<LoginResponse>('/user/login', userForm);
   }
 
-  branchData(branchData) {
-    return this.http.post<GetValues>('/user/branchSearch', {branchData});
+  subjectData(sub, branch, semester) {
+    return this.http.post<GetValues>('/user/subjectSearch', {sub, branch, semester});
   }
 
   uploadData (uploadImage) {
@@ -57,8 +59,25 @@ export class UserServiceService {
     });
   }
 
-  getBranch () {
-    return this.http.get<GetValues>('/user/');
+  getBranch(): Observable<any> {
+    return this.http.get<any>('/admin/branch-list').pipe(
+      map((post) => {
+        return post;
+      })
+    );
+  }
+
+  getSemester (branch) {
+    console.log('br ', branch);
+    return this.http.post<any>('/admin/semester', {branch});
+  }
+
+  getSubject (branch, sem) {
+    return this.http.post<any>('/admin/subject', {branch: branch, sem: sem});
+  }
+
+  getData (subject, sem) {
+    return this.http.post<any>('/admin/data-details', {subject, sem});
   }
 
 }

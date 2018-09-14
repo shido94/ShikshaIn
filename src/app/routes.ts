@@ -30,21 +30,25 @@ export const myRoutes: Routes = [
     component: BranchComponent
     // children: [
     //   {
-    //     path: '/:id',
-    //     component: BranchComponent
+    //     path: 'branch/:id',
+    //     component: SemesterComponent
     //   }
     // ],
   },
   {
-    path: 'it',
+    path: 'branch/:name',
     component: SemesterComponent
   },
+  // {
+  //   path: 'it',
+  //   component: SemesterComponent
+  // },
   {
-    path: 'subject',
+    path: 'branch/:name/:semester',
     component: SubjectComponent
   },
   {
-    path: 'result',
+    path: 'branch/:name/:semester/:id',
     component: DisplayDataComponent
   },
   {

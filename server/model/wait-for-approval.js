@@ -7,7 +7,7 @@ const WaitForApproval = new Schema({
   course        : String,
   university    : String,
   doc_of_college: String,
-  semester      : Number,
+  semester      : String,
   branch        : String,
   document      : String,
   subject       : String,

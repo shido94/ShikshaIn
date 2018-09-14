@@ -9,6 +9,12 @@ const Registration = new Schema({
   Profession: { type: String, default: 'student' },
   college: String,
   postedAt: { type : Date, default: Date.now },
+  notifications: [{
+    subject: {type: String},
+    message: {type: String},
+    documentId: {type: String},
+    seen: {type: Boolean}
+  }],
   uploads: [{type: Schema.Types.ObjectId, ref: 'document' }]
 });
 

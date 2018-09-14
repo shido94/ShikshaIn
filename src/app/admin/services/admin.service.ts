@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {map} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
-import {Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 
 interface RegisterResponse {
@@ -42,15 +42,6 @@ export class AdminService {
     return this.http.post<RegisterResponse>('/admin/branch-data', data);
   }
 
-  fetchData(): any {
-    console.log('reaches');
-    return this.http.get('/admin/api').pipe(
-      map((post) => {
-        console.log(post);
-        return post;
-      })
-    );
-  }
 
   approveData (approveData) {
     return this.http.post<RegisterResponse>('/admin/approval', {approveData});
@@ -60,4 +51,34 @@ export class AdminService {
     console.log(disapproveData);
     return this.http.post<RegisterResponse>('/admin/disapproval', {disapproveData});
   }
+
+  fetchData(): Observable<any> {
+    return this.http.get<any>('/admin/posts').pipe(
+      map((post) => {
+        console.log(post);
+        return post;
+      })
+    );
+  }
+
+  getPendingData(): Observable<any> {
+    return this.http.get<any>('/admin/pending-data').pipe(
+      map((pending) => {
+        console.log(pending);
+        return pending;
+      })
+    );
+  }
+
+  findPendingData (data) {
+    return this.http.post<any>('/admin/data', {data});
+  }
+
+
+  // get(request: string): Observable<any> {
+  //   return this.http.get(`${this.actionUrl}${request}`)
+  //     .map(res => this.extractData(res))
+  //     .catch(this.handleError);
+  // }
+
 }

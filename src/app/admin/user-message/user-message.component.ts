@@ -35,7 +35,10 @@ export class UserMessageComponent implements OnInit {
       docs: this.docData,
       response: $event
     };
-    this.adminService.disapproveData($event);
+    const $obj = this.adminService.disapproveData(data);
+    $obj.subscribe(value => {
+      console.log(value);
+    });
   }
 
 }

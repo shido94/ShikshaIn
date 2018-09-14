@@ -51,7 +51,7 @@
     <div *ngIf="!username">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <app-login></app-login>
+          <app-login (refresh)="OnNotifyRefresh($event)"></app-login>
         </li>
       </ul>
     </div>

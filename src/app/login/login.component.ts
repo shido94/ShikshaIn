@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import * as $ from 'jquery';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
@@ -14,6 +14,8 @@ import {AlertService} from '../services/alert.service';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+
+  @Output() refresh: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   emailControl = new FormControl(null, [Validators.required, Validators.email]);
   passwordControl = new FormControl(null, [Validators.required]);
@@ -69,6 +71,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('USER_NAME', data.username);
           this.eventBus.announce('LOGIN_SUCCESS');
           this.alertService.success('successfully login');
+          this.refresh.next(true);
         }
       },
       error => {
@@ -76,3 +79,4 @@ export class LoginComponent implements OnInit {
       });
   }
 }
+

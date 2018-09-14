@@ -6,59 +6,17 @@
       <p>Explore Courses</p>
     </div>
     <div class="data-wrap">
-      <div class="wrap">
+      <div class="wrap" *ngFor="let branch of branches">
         <div class="card">
-          <a routerLink="/cs"><img class="card-img-top" src="../../assets/images/cs.jpg" alt="Card image cap"></a>
+          <a [routerLink]="['/branch', branch.branch_name]">
+            <img class="card-img-top" src="{{branch.branchImg}}" alt="Card image cap">
+          </a>
           <div class="card-body">
-            <a routerLink="cs" class="nav-link"><p class="card-text">Computer Science (CS)</p></a>
-          </div>
-        </div>
-      </div>
-      <div class="wrap">
-        <div class="card">
-          <a routerLink="/it"><img class="card-img-top" src="../../assets/images/it.jpg" alt="Card image cap"></a>
-          <div class="card-body">
-            <a routerLink="it" class="nav-link"><p class="card-text">Information Tech. (IT)</p></a>
-          </div>
-        </div>
-      </div>
-      <div class="wrap">
-        <div class="card">
-          <a routerLink="/me"><img class="card-img-top" src="../../assets/images/me.jpg" alt="Card image cap"></a>
-          <div class="card-body">
-            <a routerLink="me" class="nav-link"><p class="card-text">Mechanical Engg (ME)</p></a>
-          </div>
-        </div>
-      </div>
-      <div class="wrap">
-        <div class="card">
-          <a routerLink="/civil"><img class="card-img-top" src="../../assets/images/civil.jpg" alt="Card image cap"></a>
-          <div class="card-body">
-            <a routerLink="civil" class="nav-link"><p class="card-text">Civil Engg (CIVIL)</p></a>
-          </div>
-        </div>
-      </div>
-      <div class="wrap">
-        <div class="card">
-          <a routerLink="/en"><img class="card-img-top" src="../../assets/images/en.jpg" alt="Card image cap"></a>
-          <div class="card-body">
-            <a routerLink="en" class="nav-link"><p class="card-text">Electrical & Elect. (EN)</p></a>
-          </div>
-        </div>
-      </div>
-      <div class="wrap">
-        <div class="card">
-          <a routerLink="/ece"><img class="card-img-top" src="../../assets/images/ec.jpg" alt="Card image cap"></a>
-          <div class="card-body">
-            <a routerLink="ece" class="nav-link"><p class="card-text">Electronics (ECE)</p></a>
-          </div>
-        </div>
-      </div>
-      <div class="wrap">
-        <div class="card">
-          <a routerLink="/ei"><img class="card-img-top" src="../../assets/images/ei.jpg" alt="Card image cap"></a>
-          <div class="card-body">
-            <a routerLink="ei" class="nav-link"><p class="card-text">Electronics & Instru. (EI)</p></a>
+            <a [routerLink]="['/branch', branch.branch_name]" class="nav-link">
+              <p class="card-text">
+              {{branch.branch_name | truncate}}
+              </p>
+            </a>
           </div>
         </div>
       </div>
@@ -66,3 +24,55 @@
     </div>
   </div>
 </div>
+
+
+
+
+<!--<div class="wrap">-->
+<!--<div class="card">-->
+<!--<a routerLink="/it"><img class="card-img-top" src="../../assets/images/it.jpg" alt="Card image cap"></a>-->
+<!--<div class="card-body">-->
+<!--<a routerLink="it" class="nav-link"><p class="card-text">Information technology</p></a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="wrap">-->
+<!--<div class="card">-->
+<!--<a routerLink="/me"><img class="card-img-top" src="../../assets/images/me.jpg" alt="Card image cap"></a>-->
+<!--<div class="card-body">-->
+<!--<a routerLink="me" class="nav-link"><p class="card-text">Mechanical Engineering</p></a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="wrap">-->
+<!--<div class="card">-->
+<!--<a routerLink="/civil"><img class="card-img-top" src="../../assets/images/civil.jpg" alt="Card image cap"></a>-->
+<!--<div class="card-body">-->
+<!--<a routerLink="civil" class="nav-link"><p class="card-text">Civil Engineering</p></a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="wrap">-->
+<!--<div class="card">-->
+<!--<a routerLink="/en"><img class="card-img-top" src="../../assets/images/en.jpg" alt="Card image cap"></a>-->
+<!--<div class="card-body">-->
+<!--<a routerLink="en" class="nav-link"><p class="card-text">Electrical & Elect. (EN)</p></a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="wrap">-->
+<!--<div class="card">-->
+<!--<a routerLink="/ece"><img class="card-img-top" src="../../assets/images/ec.jpg" alt="Card image cap"></a>-->
+<!--<div class="card-body">-->
+<!--<a routerLink="ece" class="nav-link"><p class="card-text">Electronics (ECE)</p></a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="wrap">-->
+<!--<div class="card">-->
+<!--<a routerLink="/ei"><img class="card-img-top" src="../../assets/images/ei.jpg" alt="Card image cap"></a>-->
+<!--<div class="card-body">-->
+<!--<a routerLink="ei" class="nav-link"><p class="card-text">Electronics & Instru. (EI)</p></a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->

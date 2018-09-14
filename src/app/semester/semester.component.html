@@ -2,29 +2,33 @@
 <app-search></app-search>
 <div class="container">
   <ul>
-    <div class="item">
-      <li><a routerLink="/subject" class="nav-link">1st semester</a></li>
-    </div>
-    <div class="item">
-      <li><a routerLink="#" class="nav-link">2nd semester</a></li>
-    </div>
-    <div class="item">
-      <li><a routerLink="#" class="nav-link">3rd semester</a></li>
-    </div>
-    <div class="item">
-      <li><a routerLink="#" class="nav-link">4th semester</a></li>
-    </div>
-    <div class="item">
-      <li><a routerLink="#" class="nav-link">5th semester</a></li>
-    </div>
-    <div class="item">
-      <li><a routerLink="#" class="nav-link">6th semester</a></li>
-    </div>
-    <div class="item">
-      <li><a routerLink="#" class="nav-link">7th semester</a></li>
-    </div>
-    <div class="item">
-      <li><a routerLink="#" class="nav-link">8th semester</a></li>
+    <div *ngFor="let sem of semester">
+      <div class="item">
+        <li><a [routerLink]="[sem]" class="nav-link">semester {{sem}}</a></li>
+      </div>
     </div>
   </ul>
 </div>
+
+
+<!--<div class="item">-->
+<!--<li><a routerLink="#" class="nav-link">2nd semester</a></li>-->
+<!--</div>-->
+<!--<div class="item">-->
+<!--<li><a routerLink="#" class="nav-link">3rd semester</a></li>-->
+<!--</div>-->
+<!--<div class="item">-->
+<!--<li><a routerLink="#" class="nav-link">4th semester</a></li>-->
+<!--</div>-->
+<!--<div class="item">-->
+<!--<li><a routerLink="#" class="nav-link">5th semester</a></li>-->
+<!--</div>-->
+<!--<div class="item">-->
+<!--<li><a routerLink="#" class="nav-link">6th semester</a></li>-->
+<!--</div>-->
+<!--<div class="item">-->
+<!--<li><a routerLink="#" class="nav-link">7th semester</a></li>-->
+<!--</div>-->
+<!--<div class="item">-->
+<!--<li><a routerLink="#" class="nav-link">8th semester</a></li>-->
+<!--</div>-->

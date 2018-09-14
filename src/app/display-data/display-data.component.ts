@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import * as $ from 'jquery';
+// import * as $ from 'jquery';
+import {ActivatedRoute} from '@angular/router';
+import {UserServiceService} from '../services/user-service.service';
 
 @Component({
   selector: 'app-display-data',
@@ -7,12 +9,17 @@ import * as $ from 'jquery';
   styleUrls: ['./display-data.component.css']
 })
 export class DisplayDataComponent implements OnInit {
+  data = [];
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private userService: UserServiceService) { }
 
   ngOnInit() {
-    $(document).ready(function () {
-      // console.log('reaches');
+    this.route.params.subscribe( params => {
+      const details$ = this.userService.getData(params['id'], params['semester']);
+      details$.subscribe(result => {
+        this.data = result;
+        console.log(result);
+      });
     });
   }
 

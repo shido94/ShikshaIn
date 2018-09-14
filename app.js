@@ -29,20 +29,17 @@ app.use(bodyParser.urlencoded({limit: '50MB', extended: false}));
 app.use(express.static(__dirname + '/dist/newApp'));
 
 app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+  // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
   res.setHeader('Access-Control-Allow-Methods', 'POST');
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  // res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
   res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
 
-
 app.use('/user', userApi);
 app.use('/admin', adminApi);
-//
-// app.get('*', (req,res)=>{
-//   res.sendFile(path.join(__dirname, ''));
-// });
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/dist/newApp/index.html'));

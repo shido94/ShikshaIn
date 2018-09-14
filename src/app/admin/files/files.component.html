@@ -1,19 +1,75 @@
 <app-header></app-header>
 <div class="container">
-  <p>Subject name: <span>concept of C</span></p>
-  <p>course: <span>B-Tech</span></p>
-  <p>university: <span>Aktu</span> </p>
-  <p>doc_of_college: <span>KIET</span></p>
-  <p>semester: <span>concept of C</span></p>
-  <p>branch: <span>IT</span> </p>
-  <p>document : <span>see file</span></p>
-  <p>unit_covered: <span>Total Units</span> </p>
-  <ul>
-    <li>abcn</li>
-    <li>pqwerty</li>
-  </ul>
+  <h4 style="text-align: center">Pending data</h4>
   <div class="row">
-    <button type="button" (click)="OnApprove('id')" class="btn btn-success">Approve</button>
-    <button type="button" (click)="dissaprovedData('data')" class="btn btn-danger" style="margin-left: 10px">Disapprove</button>
+    <table class="table">
+      <thead>
+      <tr>
+        <!--<th scope="col">#</th>-->
+        <!--<th scope="col">Name</th>-->
+        <!--<th scope="col">Subject</th>-->
+        <!--<th scope="col">File</th>-->
+        <!--<th scope="col">Upload On</th>-->
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th scope="row">Subject name:</th>
+        <td>{{data.subject}}</td>
+      </tr>
+      <tr>
+        <th scope="row">course:</th>
+        <td>{{data.course}}</td>
+      </tr>
+      <tr>
+        <th scope="row">university:</th>
+        <td>{{data.university}}</td>
+      </tr>
+      <tr>
+        <th scope="row">doc_of_college:</th>
+        <td>{{data.doc_of_college}}</td>
+      </tr>
+      <tr>
+        <th scope="row">semester:</th>
+        <td>{{data.semester}}</td>
+      </tr>
+      <tr>
+        <th scope="row">branch:</th>
+        <td>{{data.branch}}</td>
+      </tr>
+      <tr>
+        <th scope="row">document:</th>
+        <td><a href="{{data.document}}" target="_blank">Click here</a></td>
+      </tr>
+      <tr>
+        <th scope="row">topic_covered:</th>
+        <td>
+          <ul>
+            <li *ngFor="let topic of data.unit_covered">{{topic}}</li>
+          </ul>
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
   </div>
+  <div class="row">
+    <button type="button" (click)="OnApprove(data._id)" class="btn btn-success">Approve</button>
+    <button type="button" (click)="dissaprovedData(data._id)" class="btn btn-danger" style="margin-left: 10px">Disapprove</button>
+  </div>
+  <!--<p>Subject name: <span>{{data.subject}}</span></p>-->
+  <!--<p>course: <span>{{data.course}}</span></p>-->
+  <!--<p>university: <span>{{data.university}}</span> </p>-->
+  <!--<p>doc_of_college: <span>{{data.doc_of_college}}</span></p>-->
+  <!--<p>semester: <span>{{data.semester}}</span></p>-->
+  <!--<p>branch: <span>{{data.branch}}</span> </p>-->
+  <!--<p>document : <span>see file</span></p>-->
+  <!--<p>unit_covered: <span>Total Units</span> </p>-->
+  <!--<ul>-->
+    <!--<li *ngFor="let topic of data.unit_covered">{{topic}}</li>-->
+  <!--</ul>-->
+  <!--<div class="row">-->
+    <!--<button type="button" (click)="OnApprove('id')" class="btn btn-success">Approve</button>-->
+    <!--<button type="button" (click)="dissaprovedData('data')" class="btn btn-danger" style="margin-left: 10px">Disapprove</button>-->
+  <!--</div>-->
 </div>

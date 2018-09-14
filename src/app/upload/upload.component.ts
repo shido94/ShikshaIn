@@ -39,7 +39,7 @@ export class UploadComponent implements OnInit {
 
     this.uploadForm = this.formBuilder.group({
       types: ['notes', Validators.required],
-      branch: ['cs', Validators.required],
+      branch: ['computer science and engineering', Validators.required],
       course: ['B-Tech', Validators.required],
       university: ['Abdul kalam azaad technical university', Validators.required],
       doc_of_college: ['krishna institute of engineering and technology', Validators.required],
@@ -52,13 +52,26 @@ export class UploadComponent implements OnInit {
     this.search = (text$: Observable<string>) => text$.pipe(
       // debounceTime(200),
       distinctUntilChanged(),
-      map(term => term.length < 2 ? []
+      map(term => term.length < 3 ? []
         : this.result.filter(v => {
-          console.log('v ', v);
+          // console.log('v ', v);
           return v;
         }).slice(0, 10))
     );
 
+  }
+
+  ////  Searched Subject  //////////////
+
+  valueUpdate(sub, branch, semester) {
+    // console.log('event ', sub, branch, semester);
+    if (sub.length > 3) {
+      const obs$ = this.userService.subjectData(sub, branch, semester);
+      obs$.subscribe(value => {
+        console.log(value);
+        this.result = value;
+      });
+    }
   }
 
   ///// Upload Image///////////
@@ -102,16 +115,6 @@ export class UploadComponent implements OnInit {
     this.items.push(this.createItem());
   }
 
-  ////  Searched value //////////////
-
-  valueUpdate($event) {
-    if ($event.length > 3) {
-      const obs$ = this.userService.branchData($event);
-      obs$.subscribe(value => {
-        // console.log(value);
-      });
-    }
-  }
 
 //////// Submit Form/////////////
 

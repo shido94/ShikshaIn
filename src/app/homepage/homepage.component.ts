@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
-import * as $ from 'jquery';
 import {EventBusService} from '../services/event-bus.service';
 
 @Component({
@@ -16,21 +15,22 @@ export class HomepageComponent implements OnInit {
 
   ngOnInit() {
     this.username = localStorage.getItem('USER_NAME');
+  }
 
-    this.eventBus.listen('LOGIN_SUCCESS').subscribe(user => {
-      console.log('user ', user);
-      this.username = user.username;
-    });
-    console.log(this.username);
+  OnNotifyRefresh(refresh: boolean) {
+    if (refresh) {
+      this.ngOnInit();
+    }
   }
 
   nextPage() {
+
     this.router.navigate(['branch']);
   }
 
   logout() {
     localStorage.clear();
-    this.router.navigate(['/']);
+    this.ngOnInit();
   }
 
 }

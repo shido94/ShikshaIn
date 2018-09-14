@@ -32,12 +32,7 @@ export const adminRoutes: Routes = [
     component: FillDataComponent
   },
   {
-    path: 'api',
-    redirectTo: 'post',
-    pathMatch: 'full'
-  },
-  {
-    path: 'post',
+    path: 'admin/post',
     component: SemComponent
   },
   {
@@ -45,7 +40,7 @@ export const adminRoutes: Routes = [
     component: PendingComponent
   },
   {
-    path: 'admin/data/pending/file',
+    path: 'admin/data/pending/:id',
     component: FilesComponent
   },
   {

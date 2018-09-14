@@ -7,6 +7,7 @@ const axios = require('axios');
 const fs = require('fs');
 const saltRounds = 15;
 const jwt = require('jsonwebtoken');
+const async = require('async');
 mongoose.Promise = Promise;
 const process = require('../../keys/jwt');
 const config = require('../../keys/cloudinary_keys');
@@ -15,6 +16,10 @@ const Branch = require('../model/branch');
 const WaitForApproval = require('../model/wait-for-approval');
 const Document = require('../model/document');
 const User = require('../model/registration');
+
+var PDFParser = require('pdf2json');
+var pdfParser = new PDFParser();
+// const getPageCount = require('docx-pdf-pagecount');
 
 // const admin = {
 //   name: 'Rupesh yadav',
@@ -112,7 +117,6 @@ router.post('/login', async (req,res)=>{
   }
 });
 
-
 cloudinary.config({
   cloud_name: config.cloudName,
   api_key:    config.apiKey,
@@ -121,62 +125,27 @@ cloudinary.config({
 
 router.post('/branch-data', async (req,res) =>{
   const body = req.body;
-  console.log(body.branchImg);
-
-  let base64Data = body.branchImg;
-
-  base64Data = base64Data.replace(/^data:image\/jpeg;base64,/, '');
-  base64Data = base64Data.replace(/^data:image\/png;base64,/, '');
 
   const branch = await Branch.findOne({branch_name: body.branch_name});
+  console.log(branch);
+  let base64Data = body.branchImg;
 
-  fs.writeFile("out.jpg", base64Data, 'base64', function(err) {
-    cloudinary.uploader.upload("out.jpg", function(result){
-      if (result.url) {
-        console.log(result);
-        const data= {
-          branchImg: result.url,
-          branch_name: body.branch_name,
-          semester_name: [{
-            semester: body.semester,
-            subject: body.subject
-          }]
-        };
+  if(base64Data !== null && branch === null) {
+    base64Data = base64Data.replace(/^data:image\/jpeg;base64,/, '');
+    base64Data = base64Data.replace(/^data:image\/png;base64,/, '');
 
-        if(branch) {
-          let value = false;
-          branch.semester_name.forEach((semester) => {
-            if (semester.semester === data.semester_name[0].semester) {
-              return value = true;
-            }
-          });
-          if(value){
-            return res.status(404).json({
-              success: false,
-              message: 'Data already exist'
-            });
-          }
-          else{
-            Branch.update({_id: branch._id},{
-              $push: {
-                semester_name: data.semester_name
-              }
-            },(err) => {
-              if(err) {
-                return res.status(404).json({
-                  success: false,
-                  message: 'Some error'
-                });
-              }
-              else{
-                return res.status(200).json({
-                  success: true
-                });
-              }
-            });
-          }
-        }
-        else {
+    fs.writeFile("out.jpg", base64Data, 'base64', function (err) {
+      cloudinary.uploader.upload("out.jpg", function (result) {
+        if (result.url) {
+          console.log(result);
+          const data = {
+            branchImg: result.url,
+            branch_name: body.branch_name,
+            semester_name: [{
+              semester: body.semester,
+              subject: body.subject
+            }]
+          };
           const new_branch = new Branch(data);
           new_branch.save((error) =>{
             if(!error){
@@ -186,42 +155,67 @@ router.post('/branch-data', async (req,res) =>{
             }
           });
         }
-
-
-      } else {
+        else {
+          return res.status(404).json({
+            success: false,
+            message: 'Error in cloudinary API'
+          })
+        }
+      })
+    });
+  }
+  else {
+    const data = {
+      branch_name: body.branch_name,
+      semester_name: [{
+        semester: body.semester,
+        subject: body.subject
+      }]
+    };
+    if(branch) {
+      let value = false;
+      branch.semester_name.forEach((semester) => {
+        if (semester.semester === data.semester_name[0].semester) {
+          return value = true;
+        }
+      });
+      if(value){
         return res.status(404).json({
           success: false,
-          message: 'Error in cloudinary API'
-        })
+          message: 'Data already exist'
+        });
       }
-    });
-  });
-});
-
-router.get('/api', (req,res) =>{
-  let data = [
-    {
-      userId: 10,
-      id: 98,
-      title: 'laboriosam dolor voluptates',
-      body: 'doloremque ex facilis sit sint culpa{ userId: 10'
-    },
-    {
-      id: 99,
-      title: 'temporibus sit alias delectus eligendi possimus magni',
-      body: 'quo deleniti praesentium dicta non quod'
+      else{
+        Branch.update({_id: branch._id},{
+          $push: {
+            semester_name: data.semester_name
+          }
+        },(err) => {
+          if(err) {
+            return res.status(404).json({
+              success: false,
+              message: 'Some error'
+            });
+          }
+          else{
+            return res.status(200).json({
+              success: true
+            });
+          }
+        });
+      }
     }
-  ];
-
-  res.status(200).json(data);
-
+  }
 });
+
 
 router.post('/approval', async (req,res) => {
+  console.log(req.body);
   const dataId = req.body.approveData;
   const data = await WaitForApproval.findOne({_id: dataId});
-  if(data.length === 1) {
-    const document= {
+  if(data) {
+    const document = {
+      uploadedBy: data.uploadedBy,
       types: data.types,
       branch: data.branch,
       course: data.course,
@@ -230,11 +224,11 @@ router.post('/approval', async (req,res) => {
       document: data.document,
       semester: data.semester,
       subject: data.subject,
-      unit_covered: data,
+      unit_covered: data.unit_covered,
       uploadedAt: data.uploadedAt
     };
-
     const userData = new Document(document);
+
     userData.save( (err,output) => {
       if(!err) {
         User.update({_id: data.uploadedBy}, {
@@ -243,9 +237,17 @@ router.post('/approval', async (req,res) => {
           }
         }, (error) => {
           if(!error) {
-            res.status(200).json({
-              success: true,
-              message: 'Successfully Approved'
+            WaitForApproval.findByIdAndRemove(dataId, (err,data) => {
+              if(!err){
+                res.status(200).json({
+                  success: true,
+                  message: 'Successfully Approved'
+                });
+              }
+              else{
+                console.log(err);
+                throw err;
+              }
             });
           }
           else{
@@ -255,6 +257,9 @@ router.post('/approval', async (req,res) => {
             });
           }
         });
+      }else{
+        console.log(err);
+        throw err;
       }
     });
   }
@@ -266,12 +271,186 @@ router.post('/approval', async (req,res) => {
   }
 });
 
-router.post('/disapproval', (req,res) => {
+router.post('/disapproval', async (req,res,next) => {
   console.log(req.body);
+  const rejected = req.body.disapproveData;
+
+  const userId = WaitForApproval.findOne({_id: rejected.docs});
+
+  const notification = {
+      subject: {type: String},
+      message: {type: String},
+      documentId: {type: String}
+  };
+
+  User.update({_id: userId.uploadedBy}, {
+    $push: {
+      notifications: notification
+    }
+  }, (err,result) => {
+    if(err){
+      next(err);
+    }
+    else{
+      res.status(200).json({
+        success: true,
+        message: 'Your message is successfully send to the user'
+      });
+    }
+  });
+
 });
 
+router.get('/branch-list', async (req,res) => {
+  const branch = [];
+  Branch.find({}, 'branchImg branch_name', (err, output) => {
+    if (output) {
+      output.forEach(output => {
+        branch.push(output);
+      });
+      res.status(200).json(branch);
+    }
+  });
+});
 
+router.post('/semester', (req,res) => {
+  const sem = [];
+  Branch.findOne({branch_name: req.body.branch}, (err,result) => {
+    if(result){
 
+      result.semester_name.forEach(semester => {
+        sem.unshift(semester.semester);
+      });
+      sem.sort(function(a,b) {
+        if (isNaN(a) || isNaN(b)) {
+          return a > b ? 1 : -1;
+        }
+        return a - b;
+      });
+      res.status(200).json(sem);
+    }
+  })
+});
 
+router.post('/subject', (req,res) => {
+  const array = [];
+  const subject_arr = [];
+  Branch.findOne({branch_name: req.body.branch}, (err, result) => {
+    if (result) {
+      result.semester_name.forEach(semester => {
+        if(semester.semester === req.body.sem) {
+          array.push(semester);
+          return;
+        }
+      });
+
+      array[0].subject.forEach(sub => {
+        subject_arr.push(sub);
+      });
+      console.log(subject_arr);
+      res.status(200).json(subject_arr);
+    }
+  })
+});
+
+router.get('/pending-data', async (req,res) => {
+  const pendingData = [];
+
+  async.waterfall([
+    function (callback) {
+      WaitForApproval.find({}, (err,result) => {
+        callback(null,result);
+      });
+    },
+    function (result, callback) {
+      result.forEach(data => {
+        User.findOne({_id: data.uploadedBy}, (err,name) => {
+          let total = {
+            id: data._id,
+            name: name.name,
+            subject: data.subject,
+            uploadOn: data.uploadedAt
+          };
+          pendingData.push(total);
+          if (pendingData.length === result.length)
+            callback(null, pendingData);
+          // callback(null,pendingData);
+        });
+      });
+    }
+  ], function () {
+      // console.log(pendingData);
+      res.status(200).json(pendingData);
+  });
+
+  // let findOneFunctions = result.map(e=>function(cb){User.findOne({},..cb(err,data))}
+  //
+  // async.waterfall([
+  //   function (callback) {
+  //     WaitForApproval.find({}, (err,result) => {
+  //       callback(null,result);
+  //     });
+  //   },
+  //   function (callback) {
+  //     async.parallel(findOneFunctions,function(err,data){
+  //       callback(null,data);
+  //     });
+  //   }
+  // ], function (err,result) {
+  //   // result[0] will be from waitForApproval, result[1] will be from findOneFunctions
+  //   console.log(result);
+  // });
+
+});
+
+router.post('/data', (req,res) => {
+  const dataId = req.body.data;
+
+  WaitForApproval.findOne({_id: dataId},'-uploadedBy -uploadedAt')
+    .then(result => {
+      res.status(200).json(result)
+    })
+    .catch(error => {
+      console.log(error);
+      throw error;
+    });
+});
+
+router.post('/data-details', (req,res) => {
+  const array = [];
+  Document.find({semester: req.body.sem, subject: req.body.subject})
+    .then(result => {
+      result.forEach(value => {
+        User.findOne({_id: value.uploadedBy})
+          .then(user => {
+            value.uploadedBy = user.name;
+            array.push(value);
+            // getPageCount(value.document)
+            //   .then(pages => {
+            //     console.log(pages);
+            //   });
+
+            // pdfParser.on('pdfParser_dataError', _.bind(_onPFBinDataError, self));
+            console.log(value.document);
+            pdfParser.loadPDF(value.document);
+            pdfParser.on('pdfParser_dataReady', function(data) {
+              const doc = data.PDFJS && data.PDFJS.pdfDocument && data.PDFJS.pdfDocument.numPages;
+              console.log('Number of pages:', doc);
+            });
+
+            if(array.length === result.length){
+              res.status(200).json(array);
+            }
+          })
+          .catch(error => {
+            console.log(error);
+            throw error;
+          })
+      });
+    })
+    .catch(error => {
+      throw error;
+    })
+});
 
 module.exports = router;

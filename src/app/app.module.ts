@@ -35,6 +35,11 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FileUploadModule} from 'ng2-file-upload';
 import { ProfileComponent } from './users/profile/profile.component';
 import {UploadInfoComponent} from './users/upload-info/upload-info.component';
+import {StoreModule} from '@ngrx/store';
+import {reducers} from './states';
+import {BranchManager} from './manager/manager.component';
+import { TruncatePipe } from './pipes/truncate.pipe';
+import { P2IPipe } from './pipes/p2-i.pipe';
 
 
 @NgModule({
@@ -57,7 +62,9 @@ import {UploadInfoComponent} from './users/upload-info/upload-info.component';
     UploadComponent,
     HeaderComponent,
     ProfileComponent,
-    UploadInfoComponent
+    UploadInfoComponent,
+    TruncatePipe,
+    P2IPipe
   ],
   imports: [
     BrowserModule,
@@ -70,12 +77,14 @@ import {UploadInfoComponent} from './users/upload-info/upload-info.component';
     MatMenuModule,
     AdminModule,
     NgbModule.forRoot(),
-    FileUploadModule
+    FileUploadModule,
+    StoreModule.forRoot(reducers)
   ],
   providers: [
     UserServiceService,
     AuthGuard,
-    AdminAuthGuard
+    AdminAuthGuard,
+    BranchManager
   ],
   bootstrap: [AppComponent]
 })
